@@ -1,0 +1,5 @@
+#这是用来忽略node包
+node_modules
+
+#这是用来忽略打包后的文件
+dist
