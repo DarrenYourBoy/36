@@ -10,7 +10,7 @@
       <span class="iconfont iconnew"></span>
     </div>
 
-    <!-- 用户名、昵称、密码输入框 -->
+    <!-- 用户名密码输入框 -->
     <div class="inputs">
       <div>
         <AuthInput
@@ -18,7 +18,15 @@
           :value="form.username"
           @input="handleUsername"
           :rule="/^1[0-9]{4,10}$/"
-          err_message="电话号码格式不正确"
+          err_message="手机号码格式不正确"
+        ></AuthInput>
+      </div>    
+      <div class="name">
+        <AuthInput
+          placeholder="昵称"
+          v-model="form.nickname"
+          :rule="/^[0-9a-zA-Z\u4e00-\u9fa5]{2,6}$/"
+          err_message="昵称格式不正确"
         ></AuthInput>
       </div>
       <div>
@@ -30,13 +38,13 @@
         ></AuthInput>
       </div>
     </div>
-    <div class="goRegister">
-      没有账户？
+    <div class="goLoginbox">
+      已有账户？
       <span>
-        <router-link to="/register">去注册</router-link>
+        <router-link to="/login">去登录</router-link>
       </span>
     </div>
-    <AuthButton text="登录" @click="handleSubmit" class="login"></AuthButton>
+    <AuthButton text="注册" @click="handleSubmit" class="register"></AuthButton>
   </div>
 </template>
 
@@ -51,7 +59,7 @@ export default {
       form: {
         username: "",
         password: "",
-        nickname: ""
+        nickname:""
       }
     };
   },
@@ -65,17 +73,14 @@ export default {
     },
     handleSubmit() {
       this.$axios({
-        url: "/login",
+        url: "/register",
         method: "POST", // method相当于type
         data: this.form
         // .then的回调函数相当于success
       }).then(res => {
-        const { message, data } = res.data;
-        if (message === "登录成功") {
-          this.$toast.success(message);
-          localStorage.setItem("token", data.token);
-          localStorage.setItem("user_id", data.user.id);
-          this.$router.push("/personal");
+        const { message } = res.data;
+        if(message==='注册成功'){
+            this.$router.push("/login");
         }
       });
     }
@@ -87,22 +92,23 @@ export default {
 // lang声明样式的类型
 .container {
   padding: 20px;
-  .login {
+  .register {
     font-size: 18px;
-  }
-  .goRegister {
-    text-align-last: right;
-    margin-bottom: 20px;
-    font-size: 14px;
-    span {
-      color: #2319dc;
-    }
   }
   .close {
     span {
       font-size: 27 / 360 * 100vw;
     }
   }
+  .goLoginbox {
+    margin-bottom: 20px;
+    font-size: 14px;
+    text-align: right;
+    span {
+      color: #2319dc;
+    }
+  }
+
   .logo {
     display: flex;
     justify-content: center;
@@ -119,4 +125,3 @@ export default {
   }
 }
 </style>
-

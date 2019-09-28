@@ -3,6 +3,7 @@ const path = require("path");
 //  导入提取样式的webpack插件
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
+const CopyPlugin = require("copy-webpack-plugin");
 // 该插件自动在html文件引入打包文件
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
@@ -72,7 +73,7 @@ module.exports = {
             {
                 test: /\.vue$/,
                 use: ['vue-loader']
-			},
+            },
         ]
     },
 
@@ -84,7 +85,11 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: "public/index.html" // template指定默认html模板
         }),
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        new CopyPlugin([{
+            from: 'static',
+            to: 'static'
+        }, ]),
     ],
     //  + 添加模块解释
     resolve: {

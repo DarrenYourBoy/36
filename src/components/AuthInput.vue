@@ -2,6 +2,7 @@
   <input
     class="input"
     :value="value"
+    :placeholder="placeholder"
     @input="handleinput"
     :class="{
       success:status==='success',
