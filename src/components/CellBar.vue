@@ -2,7 +2,7 @@
   <div class="cellbar" @click="$emit('click')">
     <div class="left">{{label}}</div>
     <div class="right">
-      {{text}}
+      {{type==='password'? '******':text}}
       <span class="iconfont iconjiantou1"></span>
     </div>
   </div>
@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  props: ["label", "text"],
+  props: ["label", "text","type"],
   
 };
 </script>

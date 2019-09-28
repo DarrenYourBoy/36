@@ -26,6 +26,7 @@ import App from "@/App";
 import Login from "@/pages/Login";
 import Register from '@/pages/Register';
 import Personal from '@/pages/Personal';
+import EditProfile from '@/pages/EditProfile';
 
 // 路由：2.创建路由配置
 const routes = [{
@@ -39,6 +40,10 @@ const routes = [{
     {
         path: '/personal',
         component: Personal
+    },
+    {
+        path: '/editprofile',
+        component: EditProfile
     }
 ]
 
@@ -48,12 +53,12 @@ const router = new VueRouter({
 });
 
 //判断是否可以跳转到需要登录的页面 路由守卫
-router.beforeEach((to,from,next)=>{
+router.beforeEach((to, from, next) => {
     const hasToken = localStorage.getItem('token')
-    if(to.path=='/personal'){
-        if(hasToken){
+    if (to.path === '/personal' || to.path === "/editprofile") {
+        if (hasToken) {
             next()
-        }else{
+        } else {
             return next('/login')
         }
     }
@@ -70,7 +75,7 @@ axios.interceptors.response.use(res => {
     if (statusCode === 401) {
         Toast.fail(message)
     }
-    if(message==='用户信息验证失败'){
+    if (message === '用户信息验证失败') {
         router.push('/login')
     }
     // 必须要返回res

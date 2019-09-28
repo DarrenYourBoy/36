@@ -1,18 +1,21 @@
 <template>
   <div>
-    <div class="profile">
-      <img :src="profile.head_img" alt />
+    <!-- 添加编辑页面跳转 -->
+    <router-link to="/editprofile">
+      <div class="profile">
+        <img :src="profile.head_img" alt />
 
-      <div class="profile-center">
-        <div class="name">
-          <span class="iconfont iconxingbienan"></span>
-          {{profile.nickname}}
+        <div class="profile-center">
+          <div class="name">
+            <span class="iconfont iconxingbienan"></span>
+            {{profile.nickname}}
+          </div>
+          <div class="time">2019-9-24</div>
         </div>
-        <div class="time">2019-9-24</div>
-      </div>
 
-      <span class="iconfont iconjiantou1"></span>
-    </div>
+        <span class="iconfont iconjiantou1"></span>
+      </div>
+    </router-link>
 
     <!-- 调用条形组件 -->
     <CellBar label="我的关注" text="关注的用户" />
@@ -25,6 +28,7 @@
 <script>
 // 导入条形组件
 import CellBar from "@/components/CellBar";
+
 export default {
   components: {
     CellBar
@@ -46,19 +50,20 @@ export default {
       this.profile = data;
       if (data) {
         if (data.head_img) {
-          this.profile.head_img = this.$axios.defaults.baseURL + profile.head_img;
+          this.profile.head_img =
+            this.$axios.defaults.baseURL + this.profile.head_img;
         } else {
-          this.profile.head_img = "../static/default.jpg";
+          this.profile.head_img = "./static/default.jpg";
         }
       }
     });
   },
-  methods:{
-      handleLogout(){
-          localStorage.removeItem('token'),
-          localStorage.removeItem('user_id'),
-          this.$router.replace('/login')    
-      }
+  methods: {
+    handleLogout() {
+      localStorage.removeItem("token"),
+        localStorage.removeItem("user_id"),
+        this.$router.replace("/login");
+    }
   }
 };
 </script>
